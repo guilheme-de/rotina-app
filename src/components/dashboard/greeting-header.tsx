@@ -16,9 +16,12 @@ export function GreetingHeader({ name }: { name: string }) {
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- sincroniza com o relógio real do sistema
     setNow(new Date());
-    const interval = setInterval(() => setNow(new Date()), 1000);
+
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -26,10 +29,15 @@ export function GreetingHeader({ name }: { name: string }) {
 
   return (
     <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <p className="text-sm text-muted-foreground">
           {now ? format(now, "EEEE, d 'de' MMMM", { locale: ptBR }) : "\u00A0"}
         </p>
+
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
           {getGreeting(now?.getHours() ?? 12)}, {firstName}
         </h1>
